@@ -37,25 +37,6 @@ export default function LoginPage() {
             }}></div>
         </div>
         {/* Navigation Bar */}
-        <nav className="relative z-10 px-8 flex justify-between items-center bg-gray-800" style={{ height: '50px' }}>
-            {/* Logo */}
-            <div>
-            <img src="/pokedoro-title.svg" 
-                alt="Pokedoro" 
-                style={{ height: '40px', width: 'auto' }}
-            />
-            </div>
-
-            {/* Right Navigation Items */}
-            <div className="flex items-center space-x-6">
-            <button className="text-white font-semibold text-lg hover:opacity-80 transition-opacity uppercase tracking-wide">
-                Settings
-            </button>
-            <button className="text-white font-semibold text-lg hover:opacity-80 transition-opacity uppercase tracking-wide">
-                Login
-            </button>
-            </div>
-        </nav>
 
         {/* Login Form Container */}
         <div className="relative z-10 flex items-center justify-center px-4" style={{ marginTop: '8vh', minHeight: 'calc(100vh - 50px - 8vh)' }}>
