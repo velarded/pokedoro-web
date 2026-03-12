@@ -10,6 +10,7 @@ const CustomText: React.FC<{ style?: React.CSSProperties; children?: React.React
 );
 import DialogBox from "./DialogBoxWeb";
 import EnhancedRuler from "./EnhancedRulerWeb";
+import ResetButton from "./ResetButtonWeb";
 import HorseshoeProgressBar from "./HorseshoeProgressBar";
 
 const formatTime = (seconds: number) => {
@@ -106,6 +107,17 @@ export default function TimerWeb() {
   };
 
   const remainingTime = formatTime(Math.max(0, duration - progress));
+  const [mode, setMode] = useState<'pokedoro'|'short'|'long'>('pokedoro');
+
+  function selectMode(m: 'pokedoro'|'short'|'long'){
+    setMode(m);
+    let dur = 25 * 60;
+    if(m === 'short') dur = 5 * 60;
+    if(m === 'long') dur = 15 * 60;
+    setDuration(dur);
+    setProgress(0);
+    setTimerIsActive(false);
+  }
 
   const styles: { [k: string]: React.CSSProperties } = {
     timerContainer: {
@@ -160,6 +172,28 @@ export default function TimerWeb() {
       transition: "opacity 300ms ease",
       opacity: visible ? 1 : 0,
     },
+    topButtonsContainer: {
+      position: 'absolute',
+      top: 24,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      display: 'flex',
+      gap: 20,
+      zIndex: 2000,
+    },
+    modeButton: {
+      padding: '10px 18px',
+      border: '3px solid #000',
+      background: '#fff',
+      borderRadius: 6,
+      fontWeight: 700,
+      letterSpacing: 1,
+      cursor: 'pointer',
+      textTransform: 'uppercase',
+    },
+    modeButtonActive: {
+      boxShadow: 'inset 0 -6px 0 rgba(0,0,0,0.05)'
+    }
   };
 
   return (
@@ -172,6 +206,12 @@ export default function TimerWeb() {
         onPointerLeave={handlePointerUp}
         onContextMenu={(e) => e.preventDefault()}
       >
+        {/* Top mode buttons */}
+        <div style={styles.topButtonsContainer}>
+          <button style={{...styles.modeButton, ...(mode==='pokedoro'?styles.modeButtonActive:{} )}} onClick={() => selectMode('pokedoro')}>▶ POKEDORO</button>
+          <button style={{...styles.modeButton, ...(mode==='short'?styles.modeButtonActive:{} )}} onClick={() => selectMode('short')}>SHORT BREAK</button>
+          <button style={{...styles.modeButton, ...(mode==='long'?styles.modeButtonActive:{} )}} onClick={() => selectMode('long')}>LONG BREAK</button>
+        </div>
         <TimerBackgroundView timerIsActive={timerIsActive} />
         <img style={styles.eggImg} src="/pokemon-egg.gif" alt="egg" />
         {isTimerDone && (
@@ -185,8 +225,11 @@ export default function TimerWeb() {
             <div style={styles.contentContainer}>
               <div style={styles.timerContentInfo}>
                 <CustomText style={styles.timerText}>{remainingTime}</CustomText>
-                {!timerIsActive && <StartButton onPress={startTimer} />}
-                {timerIsActive && <StopButton onPress={stopTimer} />}
+                <div style={{display: 'flex', alignItems: 'center', gap: 12}}>
+                  {!timerIsActive && <StartButton onPress={startTimer} />}
+                  {timerIsActive && <StopButton onPress={stopTimer} />}
+                  <ResetButton onClick={resetTimer} />
+                </div>
                 {timerIsActive && (
                   <CustomText style={styles.holdToResetText}>Hold to reset</CustomText>
                 )}
