@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import HorseshoeProgressBar from "./HorseshoeProgressBar";
 import StartButton from "./StartButtonWeb";
 import TimerBackgroundView from "./TimerBackgroundViewWeb";
 import StopButton from "./StopButtonWeb";
@@ -11,6 +10,7 @@ const CustomText: React.FC<{ style?: React.CSSProperties; children?: React.React
 );
 import DialogBox from "./DialogBoxWeb";
 import EnhancedRuler from "./EnhancedRulerWeb";
+import HorseshoeProgressBar from "./HorseshoeProgressBar";
 
 const formatTime = (seconds: number) => {
   const minutes = Math.floor(seconds / 60);
@@ -135,10 +135,10 @@ export default function TimerWeb() {
       width: 100,
       height: 100,
       zIndex: 9999,
-      alignSelf: "center",
       position: "absolute",
+      left: "50%",
       top: "50%",
-      transform: "translateY(-70px)",
+      transform: "translate(-50%, -50%)",
     },
     timerContentInfo: {
       display: "flex",
